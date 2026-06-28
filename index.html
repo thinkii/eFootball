@@ -20,7 +20,7 @@
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   body{background:var(--bg);color:var(--text);font-family:Arial,sans-serif;min-height:100vh;transition:background 0.2s,color 0.2s;}
-  .container{max-width:780px;margin:0 auto;padding:2rem 1rem;}
+  .container{max-width:920px;margin:0 auto;padding:2rem 1rem;}
   .header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;gap:8px;}
   h1{font-size:19px;font-weight:600;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
   h1 img.site-favicon{width:22px;height:22px;object-fit:contain;border-radius:4px;flex-shrink:0;}
@@ -52,8 +52,8 @@
     position:absolute;left:0;top:calc(100% + 6px);
     background:var(--surface);border:0.5px solid var(--border-strong);
     border-radius:var(--radius);padding:8px 12px;font-size:11px;color:var(--text2);
-    z-index:100;min-width:180px;max-width:260px;white-space:normal;
-    line-height:1.5;box-shadow:0 4px 16px rgba(0,0,0,0.18);pointer-events:none;
+    z-index:100;min-width:180px;max-width:260px;white-space:pre-line;
+    line-height:1.7;box-shadow:0 4px 16px rgba(0,0,0,0.18);pointer-events:none;
   }
 
   /* toggle chart btn */
@@ -85,7 +85,7 @@
   @media(max-width:500px){.grid{grid-template-columns:1fr;}}
   .card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:10px 12px;cursor:pointer;transition:background 0.15s,border-color 0.15s,max-height 0.25s ease;border-left-width:3px;}
   .card:hover{background:var(--surface2);border-color:var(--border-strong);}
-  .card-top{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+  .card-top{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:32px;}
   .card-name{font-size:13px;font-weight:600;flex:1;min-width:0;}
   .card-right{display:flex;align-items:center;gap:8px;flex-shrink:0;}
   .count-badge{font-size:12px;font-weight:600;color:var(--text2);}
@@ -107,7 +107,11 @@
 
   /* config page */
   .cfg-category{margin-bottom:1.75rem;}
-  .cfg-category-title{font-size:12px;font-weight:700;color:var(--text);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.75rem;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 14px;border-radius:var(--radius);text-align:center;}
+  .cfg-category-title{font-size:12px;font-weight:700;color:var(--text);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.75rem;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 14px;border-radius:var(--radius);text-align:center;cursor:pointer;user-select:none;position:relative;}
+  .cfg-category-title .cfg-title-icon{display:flex;align-items:center;gap:6px;}
+  .cfg-category-title .cfg-chevron{position:absolute;right:14px;font-size:13px;transition:transform 0.2s;}
+  .cfg-category.collapsed .cfg-chevron{transform:rotate(-90deg);}
+  .cfg-category.collapsed .cfg-body{display:none;}
   .cfg-category.pantalla .cfg-category-title{background:rgba(42,120,214,0.10);border:0.5px solid rgba(42,120,214,0.25);color:#2a78d6;}
   .cfg-category.mando .cfg-category-title{background:rgba(74,58,167,0.10);border:0.5px solid rgba(74,58,167,0.25);color:#4a3aa7;}
   .cfg-category.sonido .cfg-category-title{background:rgba(27,175,122,0.10);border:0.5px solid rgba(27,175,122,0.25);color:#1baf7a;}
@@ -210,8 +214,8 @@
   <div class="page-view" id="page-configuraciones">
 
     <div class="cfg-category pantalla">
-      <div class="cfg-category-title"><i class="ti ti-device-desktop"></i>Pantalla</div>
-
+      <div class="cfg-category-title" onclick="toggleCfgCategory(this)"><span class="cfg-title-icon"><i class="ti ti-device-desktop"></i>Pantalla</span><i class="ti ti-chevron-down cfg-chevron"></i></div>
+      <div class="cfg-body">
       <div class="cfg-section">
         <div class="cfg-section-title">Pantalla del partido</div>
         <div class="cfg-row"><span class="cfg-key">Consejo</span><span class="cfg-val">Desactivado</span></div>
@@ -256,10 +260,12 @@
         <div class="cfg-row"><span class="cfg-key">Frecuencia de imagen</span><span class="cfg-val">360 fps</span></div>
         <div class="cfg-row"><span class="cfg-key">Sincronización vertical</span><span class="cfg-val">Desactivado</span></div>
       </div>
-    </div>
+      </div><!-- end cfg-body pantalla -->
+    </div><!-- end pantalla -->
 
     <div class="cfg-category mando">
-      <div class="cfg-category-title"><i class="ti ti-device-gamepad-2"></i>Mando</div>
+      <div class="cfg-category-title" onclick="toggleCfgCategory(this)"><span class="cfg-title-icon"><i class="ti ti-device-gamepad-2"></i>Mando</span><i class="ti ti-chevron-down cfg-chevron"></i></div>
+      <div class="cfg-body">
       <div class="cfg-section">
         <div class="cfg-section-title">Configuración de botones</div>
         <div class="ctrl-panel" style="border:none;border-radius:0;margin-bottom:0;">
@@ -305,10 +311,12 @@
         <div class="cfg-row"><span class="cfg-key">Guía de posicionamiento: Coop. en línea</span><span class="cfg-val">Activado</span></div>
         <div class="cfg-row"><span class="cfg-key">Tipo de comando de amago</span><span class="cfg-val">Avanzado</span></div>
       </div>
-    </div>
+      </div><!-- end cfg-body mando -->
+    </div><!-- end mando -->
 
     <div class="cfg-category sonido">
-      <div class="cfg-category-title"><i class="ti ti-volume"></i>Sonido</div>
+      <div class="cfg-category-title" onclick="toggleCfgCategory(this)"><span class="cfg-title-icon"><i class="ti ti-volume"></i>Sonido</span><i class="ti ti-chevron-down cfg-chevron"></i></div>
+      <div class="cfg-body">
       <div class="cfg-section">
         <div class="cfg-section-title">Personalizado</div>
         <div class="cfg-row"><span class="cfg-key">Narración</span><span class="cfg-val">0</span></div>
@@ -317,17 +325,20 @@
         <div class="cfg-row"><span class="cfg-key">Efectos de sonido</span><span class="cfg-val">1</span></div>
         <div class="cfg-row"><span class="cfg-key">Volumen música de fondo</span><span class="cfg-val">0</span></div>
       </div>
-    </div>
+      </div><!-- end cfg-body sonido -->
+    </div><!-- end sonido -->
 
     <div class="cfg-category camara">
-      <div class="cfg-category-title"><i class="ti ti-camera"></i>Cámara</div>
+      <div class="cfg-category-title" onclick="toggleCfgCategory(this)"><span class="cfg-title-icon"><i class="ti ti-camera"></i>Cámara</span><i class="ti ti-chevron-down cfg-chevron"></i></div>
+      <div class="cfg-body">
       <div class="cfg-section">
         <div class="cfg-section-title">Tipo de cámara</div>
         <div class="cfg-row"><span class="cfg-key">Modos sin conexión</span><span class="cfg-val">Amplia dinámica (personalizada)</span></div>
         <div class="cfg-row"><span class="cfg-key">Cooperativo sin conexión</span><span class="cfg-val">Amplia dinámica (personalizada)</span></div>
         <div class="cfg-row"><span class="cfg-key">Modos en línea</span><span class="cfg-val">Amplia dinámica (personalizada)</span></div>
       </div>
-    </div>
+      </div><!-- end cfg-body camara -->
+    </div><!-- end camara -->
 
     <div class="dark-toggle-wrap">
       <button class="btn" onclick="toggleDark()" id="dark-btn-cfg"><i class="ti ti-sun"></i> Claro</button>
@@ -372,6 +383,10 @@ function switchCtrlTab(btn, tab) {
   btn.classList.add('active');
   btn.closest('.ctrl-panel').querySelectorAll('.ctrl-bindings').forEach(b => b.classList.remove('active'));
   document.getElementById('ctrl-' + tab).classList.add('active');
+}
+
+function toggleCfgCategory(titleEl) {
+  titleEl.closest('.cfg-category').classList.toggle('collapsed');
 }
 
 const CAT_COLORS = {
@@ -511,7 +526,7 @@ function makeCard(name, desc, col) {
     <div class="card-top">
       <span class="card-name">${name}</span>
       <div class="card-right">
-        <span class="count-badge" style="color:${col.bar}">×${count}</span>
+        <span class="count-badge" style="color:${col.bar}">${count}</span>
       </div>
     </div>
     <div class="desc">${desc}</div>
@@ -520,7 +535,7 @@ function makeCard(name, desc, col) {
 
 function renderStats() {
   const pending = allSkills.filter(s => (getScore(s[0])??0) === 0);
-  const totalSkills = allSkills.length;
+  const totalSkills = Object.values(scores).reduce((a, b) => a + b, 0);
 
   // Most repeated skill(s) — by score value
   const maxScore = Math.max(...Object.values(scores));
@@ -556,13 +571,18 @@ function renderPending() {
 }
 
 function renderChart() {
-  // Count of skills per category (not points)
-  const catCounts = CAT_ORDER.map(cat => allSkills.filter(s=>s[1]===cat).length);
-  const labels = CAT_ORDER.map(c => c.replace('Habilidades ','').replace('Otras ','Otras '));
+  // Sum of scores per category
+  const catCounts = CAT_ORDER.map(cat => allSkills.filter(s=>s[1]===cat).reduce((sum,s)=>{
+    const sc = getScore(s[0]);
+    return sum + (sc !== null ? sc : 0);
+  }, 0));
+  const labels = ['Defensivas','Regate','Pase','Tiro','Otras'];
   const barColors = CAT_ORDER.map(c => CAT_COLORS[c].bar);
 
   if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
-  const ctx = document.getElementById('catChart').getContext('2d');
+  const canvas = document.getElementById('catChart');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
   const textColor = darkMode ? '#898781' : '#52514e';
   const gridColor = darkMode ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
   chartInstance = new Chart(ctx, {
@@ -578,7 +598,7 @@ function renderChart() {
       plugins: {
         legend: { display: false },
         tooltip: {
-          callbacks: { label: ctx => ` ${ctx.raw} habilidades` }
+          callbacks: { label: ctx => ` ${ctx.raw} puntos` }
         }
       },
       scales: {
@@ -646,6 +666,14 @@ function render() {
   }
 }
 
+const FILTER_LABELS = {
+  'Habilidades defensivas': 'Defensivas',
+  'Habilidades de regate': 'Regate',
+  'Habilidades de pase': 'Pase',
+  'Habilidades de tiro': 'Tiro',
+  'Otras habilidades': 'Otras',
+};
+
 // Build filters
 const cats = ['Todas',...CAT_ORDER];
 const filtersEl = document.getElementById('filters');
@@ -655,7 +683,8 @@ cats.forEach(cat => {
   const btn = document.createElement('button');
   btn.className = 'filter-btn' + (cat==='Todas' ? ' active' : '');
   btn.dataset.cat = cat;
-  btn.textContent = cat==='Todas' ? `Todas · ${catCount}` : `${cat.replace('Habilidades ','')} · ${catCount}`;
+  const label = cat==='Todas' ? 'Todas' : (FILTER_LABELS[cat] || cat);
+  btn.textContent = `${label} · ${catCount}`;
   if (col) btn.style.cssText = `border-color:${col.bar};color:${col.text}`;
   btn.addEventListener('click', () => {
     setFilter(cat);
