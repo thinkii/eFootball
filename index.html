@@ -66,7 +66,21 @@
 <div class="container">
   <div class="header-top">
     <h1><i class="ti ti-ball-football"></i>Habilidades eFootball</h1>
-    <span class="total-badge" id="total-badge">Total: 226</span>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span class="total-badge" id="total-badge">Total: 226</span>
+      <button onclick="openEditor()" style="background:var(--surface);border:0.5px solid var(--border-strong);border-radius:var(--radius);padding:4px 12px;font-size:12px;color:var(--text2);cursor:pointer;display:flex;align-items:center;gap:6px;"><i class="ti ti-edit"></i> Editar</button>
+    </div>
+  </div>
+  <div id="edit-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:100;align-items:center;justify-content:center;">
+    <div style="background:var(--surface);border-radius:12px;border:0.5px solid var(--border-strong);padding:1.5rem;width:90%;max-width:480px;">
+      <h2 style="font-size:15px;font-weight:600;margin-bottom:0.5rem;">Editar en GitHub</h2>
+      <p style="font-size:12px;color:var(--text3);margin-bottom:1rem;">Pega la URL de tu archivo index.html en GitHub para editarlo directamente.</p>
+      <input id="edit-url" type="url" placeholder="https://github.com/tuusuario/repo/edit/main/index.html" style="width:100%;padding:8px 10px;border:0.5px solid var(--border-strong);border-radius:var(--radius);background:var(--surface2);color:var(--text);font-size:13px;margin-bottom:1rem;">
+      <div style="display:flex;gap:8px;justify-content:flex-end;">
+        <button onclick="closeEditor()" style="background:var(--surface);border:0.5px solid var(--border-strong);border-radius:var(--radius);padding:6px 14px;font-size:13px;color:var(--text2);cursor:pointer;">Cancelar</button>
+        <button onclick="goEdit()" style="background:#1e40af;border:none;border-radius:var(--radius);padding:6px 14px;font-size:13px;color:#fff;cursor:pointer;font-weight:500;">Ir a editar</button>
+      </div>
+    </div>
   </div>
   <div class="controls">
     <span style="font-size:12px;color:var(--text3)">Orden:</span>
@@ -152,6 +166,25 @@ const MAX = 15;
 let currentCat = 'Todas', currentSort = 'score';
 let darkMode = false;
 
+function openEditor() {
+  const modal = document.getElementById('edit-modal');
+  modal.style.display = 'flex';
+  const saved = localStorage.getItem('edit-url');
+  if (saved) document.getElementById('edit-url').value = saved;
+}
+function closeEditor() {
+  document.getElementById('edit-modal').style.display = 'none';
+}
+function goEdit() {
+  const url = document.getElementById('edit-url').value.trim();
+  if (!url) return;
+  localStorage.setItem('edit-url', url);
+  window.open(url, '_blank');
+  closeEditor();
+}
+document.getElementById('edit-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeEditor();
+});
 function toggleDark() {
   darkMode = !darkMode;
   document.documentElement.setAttribute('data-mode', darkMode ? 'dark' : '');
@@ -180,7 +213,7 @@ function getScore(name) {
 function makeCard(name, desc, col) {
   const s = getScore(name);
   const pct = s !== null ? Math.round((s/MAX)*100) : 0;
-  const scoreColor = s===null ? '' : s>=8 ? '#2a78d6' : s>=4 ? '#888' : '#bbb';
+  const scoreColor = s===null ? '' : s===0 ? '#e34948' : s>=8 ? '#2a78d6' : s>=4 ? '#888' : '#bbb';
   const scoreHtml = s !== null
     ? `<div class="bar-wrap"><div class="bar" style="width:${pct}%;background:${col.bar}"></div></div><span class="score" style="color:${scoreColor}">${s}</span>`
     : `<span style="font-size:11px;color:var(--text3);font-style:italic">—</span>`;
