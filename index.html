@@ -127,6 +127,21 @@
   .cfg-key{font-size:12px;color:var(--text2);flex:1;}
   .cfg-val{font-size:12px;font-weight:600;color:var(--text);text-align:right;flex-shrink:0;}
 
+  /* mods sections */
+  .mod-section{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden;}
+  .mod-section-title{font-size:13px;font-weight:700;color:var(--text);padding:12px 16px;border-bottom:0.5px solid var(--border);background:var(--surface2);display:flex;align-items:center;gap:8px;}
+  .mod-section-body{padding:16px;font-size:12px;color:var(--text3);min-height:60px;display:flex;align-items:center;justify-content:center;text-align:center;}
+  .mod-section-body a{color:#2a78d6;text-decoration:none;word-break:break-all;}
+  .mod-section-body a:hover{text-decoration:underline;}
+  [data-mode=dark] .mod-section-body a{color:#60a5fa;}
+
+  /* bio / sobre mi section */
+  .bio-wrap{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:1.5rem;display:flex;gap:1.25rem;align-items:flex-start;flex-wrap:wrap;}
+  .bio-photo{width:120px;height:120px;border-radius:var(--radius);background:var(--surface2);border:0.5px dashed var(--border-strong);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--text3);font-size:24px;}
+  .bio-text{flex:1;min-width:180px;color:var(--text2);font-size:13px;line-height:1.6;}
+  .bio-text p{opacity:0.6;}
+  @media(max-width:480px){.bio-wrap{flex-direction:column;align-items:center;text-align:center;}}
+
   /* placeholder pages */
   .placeholder-page{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4rem 1rem;gap:12px;color:var(--text3);}
   .placeholder-page i{font-size:36px;opacity:0.4;}
@@ -178,7 +193,7 @@
     <button class="page-tab active" onclick="showPage('habilidades')"><i class="ti ti-ball-football" style="font-size:12px;margin-right:4px;vertical-align:-1px;"></i>Habilidades</button>
     <button class="page-tab" onclick="showPage('configuraciones')"><i class="ti ti-settings" style="font-size:12px;margin-right:4px;vertical-align:-1px;"></i>Configuraciones</button>
     <button class="page-tab" onclick="showPage('mods')"><i class="ti ti-puzzle" style="font-size:12px;margin-right:4px;vertical-align:-1px;"></i>Mods y archivos</button>
-    <button class="page-tab" onclick="showPage('enlaces')"><i class="ti ti-link" style="font-size:12px;margin-right:4px;vertical-align:-1px;"></i>Enlaces</button>
+    <button class="page-tab" onclick="showPage('enlaces')"><i class="ti ti-user" style="font-size:12px;margin-right:4px;vertical-align:-1px;"></i>Sobre mí</button>
   </div>
 
   <!-- PAGE: Habilidades -->
@@ -347,20 +362,42 @@
 
   <!-- PAGE: Mods y archivos del juego -->
   <div class="page-view" id="page-mods">
-    <div class="placeholder-page">
-      <i class="ti ti-puzzle"></i>
-      <p>Próximamente — Mods y archivos del juego</p>
+    <div class="mod-section">
+      <div class="mod-section-title"><i class="ti ti-puzzle"></i>EvoMod</div>
+      <div class="mod-section-body">
+        <a href="https://evoweb.uk/threads/evomod-5-5-released-no-requests.95448/" target="_blank" rel="noopener">https://evoweb.uk/threads/evomod-5-5-released-no-requests.95448/</a>
+      </div>
+    </div>
+    <div class="mod-section">
+      <div class="mod-section-title"><i class="ti ti-shirt"></i>Equipaciones retro</div>
+      <div class="mod-section-body">
+        <a href="https://evoweb.uk/threads/efootball-classic-kits-mod-v-4-4-ef-5-5-0.100701/" target="_blank" rel="noopener">https://evoweb.uk/threads/efootball-classic-kits-mod-v-4-4-ef-5-5-0.100701/</a>
+      </div>
+    </div>
+    <div class="mod-section">
+      <div class="mod-section-title"><i class="ti ti-shirt-sport"></i>Pack retro FC Barcelona</div>
+      <div class="mod-section-body">
+        <a href="https://evoweb.uk/threads/efootball-fc-barcelona-addon-v-3-4-ef-5-5-0-ui-kits-stadium-and-etc.103967/" target="_blank" rel="noopener">https://evoweb.uk/threads/efootball-fc-barcelona-addon-v-3-4-ef-5-5-0-ui-kits-stadium-and-etc.103967/</a>
+      </div>
+    </div>
+    <div class="mod-section">
+      <div class="mod-section-title"><i class="ti ti-ball-football"></i>Pack balones y botas</div>
+      <div class="mod-section-body">
+        <a href="https://evoweb.uk/threads/uefa-champions-league-ballpack-2026-post-49-boots.102019/" target="_blank" rel="noopener">https://evoweb.uk/threads/uefa-champions-league-ballpack-2026-post-49-boots.102019/</a>
+      </div>
     </div>
     <div class="dark-toggle-wrap">
       <button class="btn" onclick="toggleDark()" id="dark-btn-mods"><i class="ti ti-sun"></i> Claro</button>
     </div>
   </div>
 
-  <!-- PAGE: Enlaces de interés -->
+  <!-- PAGE: Sobre mí -->
   <div class="page-view" id="page-enlaces">
-    <div class="placeholder-page">
-      <i class="ti ti-link"></i>
-      <p>Próximamente — Enlaces de interés</p>
+    <div class="bio-wrap">
+      <div class="bio-photo"><img src="https://i.gyazo.com/d58fef362fcb3cba2cb1c377563f27fe.jpg" alt="Foto de Manuel" style="width:100%;height:100%;object-fit:cover;border-radius:var(--radius);"></div>
+      <div class="bio-text">
+        <p style="opacity:1;">¡Hola! Soy Manuel, entrenador de VALORANT y también fui jugador profesional de CS. Ahora solo soy un entusiasta de eFootball :)</p>
+      </div>
     </div>
     <div class="dark-toggle-wrap">
       <button class="btn" onclick="toggleDark()" id="dark-btn-enlaces"><i class="ti ti-sun"></i> Claro</button>
