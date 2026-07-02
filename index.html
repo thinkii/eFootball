@@ -153,6 +153,33 @@
   .bio-text p{opacity:0.6;}
   @media(max-width:480px){.bio-wrap{flex-direction:column;align-items:center;text-align:center;}}
 
+  /* jugadores table */
+  .players-table{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:1rem;}
+  .player-row{display:flex;align-items:stretch;border-bottom:0.5px solid var(--border);transition:background 0.15s;}
+  .player-row:last-child{border-bottom:none;}
+  .player-row:hover{background:var(--surface2);}
+  .player-num{width:26px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--text3);border-right:0.5px solid var(--border);}
+  .player-photo-cell{width:104px;flex-shrink:0;display:flex;flex-direction:column;background:var(--surface2);border-right:0.5px solid var(--border);}
+  .player-photo-img{width:104px;height:148px;object-fit:cover;display:block;}
+  .player-photo-placeholder{width:104px;height:148px;align-items:center;justify-content:center;color:var(--text3);font-size:26px;}
+  .player-url-input{width:104px;border:none;border-top:0.5px solid var(--border);background:transparent;color:var(--text3);font-size:9px;text-align:center;padding:3px 2px;outline:none;font-family:Arial,sans-serif;}
+  .player-url-input:focus{color:var(--text);}
+  .player-name-cell{flex:1;display:flex;align-items:center;min-width:0;}
+  .player-name-input{width:100%;border:none;background:transparent;color:var(--text);font-size:13px;font-weight:600;padding:0 12px;outline:none;font-family:Arial,sans-serif;}
+  .player-name-input::placeholder{color:var(--text3);font-weight:400;}
+  .players-toolbar{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:1rem;flex-wrap:wrap;}
+  .players-toolbar .search-wrap{flex:0 1 260px;min-width:140px;}
+  .players-count{font-size:11px;color:var(--text3);white-space:nowrap;}
+
+  /* export modal */
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.55);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px;}
+  .modal-overlay.visible{display:flex;}
+  .modal-box{background:var(--surface);border:0.5px solid var(--border-strong);border-radius:var(--radius);padding:16px;max-width:540px;width:100%;max-height:80vh;display:flex;flex-direction:column;gap:10px;}
+  .modal-title{font-size:13px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:6px;}
+  .modal-desc{font-size:11px;color:var(--text3);line-height:1.5;}
+  .modal-textarea{width:100%;flex:1;min-height:220px;background:var(--surface2);border:0.5px solid var(--border);border-radius:6px;color:var(--text);font-family:monospace;font-size:11px;padding:10px;resize:vertical;outline:none;}
+  .modal-actions{display:flex;justify-content:flex-end;gap:8px;}
+
   /* placeholder pages */
   .placeholder-page{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4rem 1rem;gap:12px;color:var(--text3);}
   .placeholder-page i{font-size:36px;opacity:0.4;}
@@ -204,6 +231,7 @@
     <button class="page-tab active" onclick="showPage('habilidades')"><i class="ti ti-ball-football" style="font-size:12px;margin-right:4px;vertical-align:-1px;"></i>Habilidades</button>
     <button class="page-tab" onclick="showPage('configuraciones')"><i class="ti ti-settings" style="font-size:12px;margin-right:4px;vertical-align:-1px;"></i>Configuraciones</button>
     <button class="page-tab" onclick="showPage('mods')"><i class="ti ti-puzzle" style="font-size:12px;margin-right:4px;vertical-align:-1px;"></i>Mods y archivos</button>
+    <button class="page-tab" onclick="showPage('jugadores')"><i class="ti ti-users" style="font-size:12px;margin-right:4px;vertical-align:-1px;"></i>Jugadores</button>
     <button class="page-tab" onclick="showPage('enlaces')"><i class="ti ti-user" style="font-size:12px;margin-right:4px;vertical-align:-1px;"></i>Sobre mí</button>
   </div>
 
@@ -402,6 +430,24 @@
     </div>
   </div>
 
+  <!-- PAGE: Jugadores -->
+  <div class="page-view" id="page-jugadores">
+    <div class="players-toolbar">
+      <button class="btn" onclick="sortPlayersAlpha()"><i class="ti ti-arrows-sort"></i> A-Z</button>
+      <div class="search-wrap">
+        <i class="ti ti-search"></i>
+        <input id="players-search" type="text" placeholder="Buscar jugador..." oninput="filterPlayers()">
+      </div>
+      <span class="players-count" id="players-count"></span>
+      <button class="btn" onclick="exportPlayers()"><i class="ti ti-download"></i> Exportar</button>
+    </div>
+    <div class="players-table" id="players-table"></div>
+    <p class="hint"><i class="ti ti-info-circle" style="font-size:12px;vertical-align:-1px;margin-right:3px;"></i>Pega la URL de la imagen y escribe el nombre en cada fila. Se guarda automáticamente en este navegador.</p>
+    <div class="dark-toggle-wrap">
+      <button class="btn" onclick="toggleDark()" id="dark-btn-jugadores"><i class="ti ti-sun"></i> Claro</button>
+    </div>
+  </div>
+
   <!-- PAGE: Sobre mí -->
   <div class="page-view" id="page-enlaces">
     <div class="bio-wrap">
@@ -414,11 +460,25 @@
       <button class="btn" onclick="toggleDark()" id="dark-btn-enlaces"><i class="ti ti-sun"></i> Claro</button>
     </div>
   </div>
+
+  <!-- Export modal -->
+  <div class="modal-overlay" id="export-modal">
+    <div class="modal-box">
+      <div class="modal-title"><i class="ti ti-download"></i>Exportar jugadores</div>
+      <div class="modal-desc">Copia este código y pégalo en tu index.html (por ejemplo, sustituyendo la lista de jugadores) para que se vea igual para todo el mundo, no solo en tu navegador.</div>
+      <textarea class="modal-textarea" id="export-textarea" readonly onclick="this.select()"></textarea>
+      <div class="modal-actions">
+        <button class="btn" onclick="closeExportModal()">Cerrar</button>
+        <button class="btn" id="copy-export-btn" onclick="copyExport()"><i class="ti ti-copy"></i> Copiar</button>
+      </div>
+    </div>
+  </div>
+
 <script>
 // Disable right-click context menu
 document.addEventListener('contextmenu', e => e.preventDefault());
 
-const PAGES = ['habilidades','configuraciones','mods','enlaces'];
+const PAGES = ['habilidades','configuraciones','mods','jugadores','enlaces'];
 function showPage(id) {
   PAGES.forEach(p => {
     document.getElementById('page-'+p).classList.toggle('active', p===id);
@@ -752,6 +812,144 @@ cats.forEach(cat => {
 renderStats();
 renderPending();
 render();
+
+/* ===== Jugadores (tabla editable de 500 celdas) ===== */
+
+// 👇 PEGA AQUÍ el resultado del botón "Exportar" (sustituye este array vacío por el que copies)
+const players = [
+  { name: "Leo Messi", img: "https://efimg.com/efootballhub22/images/player_cards/299067699633495_l.png" },
+  { name: "Anthony Gordon", img: "https://efimg.com/efootballhub22/images/player_cards/56165555885083_l.png" },
+];
+
+const PLAYERS_COUNT = 500;
+const PLAYERS_KEY = 'ef_players_data_v1';
+
+function loadPlayersData() {
+  try {
+    const raw = localStorage.getItem(PLAYERS_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch (e) {}
+  // Si no hay nada guardado en este navegador, se parte de la lista fija "players"
+  return players.map(p => ({ name: p.name || '', img: p.img || '' }));
+}
+let playersData = loadPlayersData();
+
+function savePlayersData() {
+  try { localStorage.setItem(PLAYERS_KEY, JSON.stringify(playersData)); } catch (e) {}
+}
+
+function escAttr(s) {
+  return (s || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+}
+
+function updatePlayersCount() {
+  const filled = playersData.filter(p => p && (p.name || p.img)).length;
+  const el = document.getElementById('players-count');
+  if (el) el.textContent = `${filled} / ${PLAYERS_COUNT} completados`;
+}
+
+function initPlayers() {
+  const table = document.getElementById('players-table');
+  if (!table) return;
+  let html = '';
+  for (let i = 0; i < PLAYERS_COUNT; i++) {
+    const p = playersData[i] || { name: '', img: '' };
+    const hasImg = !!p.img;
+    html += `<div class="player-row" data-row="${i}">
+      <div class="player-num">${i + 1}</div>
+      <div class="player-photo-cell">
+        <img class="player-photo-img" src="${escAttr(p.img)}" style="display:${hasImg ? 'block' : 'none'}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="player-photo-placeholder" style="display:${hasImg ? 'none' : 'flex'}"><i class="ti ti-photo"></i></div>
+        <input class="player-url-input" type="text" placeholder="URL imagen" value="${escAttr(p.img)}" data-idx="${i}" data-field="img">
+      </div>
+      <div class="player-name-cell">
+        <input class="player-name-input" type="text" placeholder="Nombre del jugador" value="${escAttr(p.name)}" data-idx="${i}" data-field="name">
+      </div>
+    </div>`;
+  }
+  table.innerHTML = html;
+  table.oninput = onPlayerFieldInput;
+  updatePlayersCount();
+}
+
+function onPlayerFieldInput(e) {
+  const t = e.target;
+  const idx = parseInt(t.dataset.idx, 10);
+  const field = t.dataset.field;
+  if (isNaN(idx) || !field) return;
+  if (!playersData[idx]) playersData[idx] = { name: '', img: '' };
+  playersData[idx][field] = t.value;
+  savePlayersData();
+
+  if (field === 'img') {
+    const row = t.closest('.player-row');
+    const img = row.querySelector('.player-photo-img');
+    const placeholder = row.querySelector('.player-photo-placeholder');
+    if (t.value) {
+      img.src = t.value;
+      img.style.display = 'block';
+      placeholder.style.display = 'none';
+    } else {
+      img.removeAttribute('src');
+      img.style.display = 'none';
+      placeholder.style.display = 'flex';
+    }
+  }
+  updatePlayersCount();
+}
+
+function filterPlayers() {
+  const query = document.getElementById('players-search').value.toLowerCase().trim();
+  document.querySelectorAll('#players-table .player-row').forEach(row => {
+    if (!query) { row.style.display = ''; return; }
+    const nameInput = row.querySelector('.player-name-input');
+    const match = nameInput.value.toLowerCase().includes(query);
+    row.style.display = match ? '' : 'none';
+  });
+}
+
+function sortPlayersAlpha() {
+  const filled = playersData.filter(p => p && (p.name || p.img));
+  filled.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'es', { sensitivity: 'base' }));
+  const emptyCount = Math.max(PLAYERS_COUNT - filled.length, 0);
+  const empties = Array.from({ length: emptyCount }, () => ({ name: '', img: '' }));
+  playersData = filled.concat(empties);
+  savePlayersData();
+}
+
+function exportPlayers() {
+  const filled = playersData.filter(p => p && (p.name || p.img));
+  const lines = filled.map(p => `  { name: ${JSON.stringify(p.name || '')}, img: ${JSON.stringify(p.img || '')} },`).join('\n');
+  const code = `const players = [\n${lines}\n];`;
+  document.getElementById('export-textarea').value = code;
+  document.getElementById('export-modal').classList.add('visible');
+}
+
+function closeExportModal() {
+  document.getElementById('export-modal').classList.remove('visible');
+}
+
+function copyExport() {
+  const ta = document.getElementById('export-textarea');
+  ta.select();
+  const btn = document.getElementById('copy-export-btn');
+  const original = btn.innerHTML;
+  const done = () => {
+    btn.innerHTML = '<i class="ti ti-check"></i> Copiado';
+    setTimeout(() => { btn.innerHTML = original; }, 1500);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(ta.value).then(done).catch(() => {
+      document.execCommand('copy');
+      done();
+    });
+  } else {
+    document.execCommand('copy');
+    done();
+  }
+}
+
+initPlayers();
 </script>
 </body>
 </html>
