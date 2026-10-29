@@ -79,7 +79,7 @@
 
   /* ===== base glass surface, reused everywhere ===== */
   .btn,.sort-group,.filter-btn,.stat-card,.toggle-chart-btn,.chart-wrap,.cfg-section,
-  .mod-section,.players-table,.ctrl-panel,.page-nav,.card,#search,#players-search,
+  .mod-section,.players-table,.ctrl-panel,.page-nav,.card,.dcard,.dfilter,#search,#desc-search,
   .modal-box,.pending-pill,.cfg-category-title{
     background:var(--glass);
     -webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);
@@ -106,11 +106,11 @@
 
   .search-wrap{position:relative;flex:1;min-width:170px;}
   .search-wrap i{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--text3);pointer-events:none;}
-  #search,#players-search{
+  #search{
     width:100%;padding:8px 12px 8px 34px;border-radius:980px;color:var(--text);font-size:13px;outline:none;
     transition:box-shadow 0.26s var(--smooth),transform 0.26s var(--spring);
   }
-  #search:focus,#players-search:focus{box-shadow:inset 0 0 0 1.5px var(--accent),var(--glass-shadow);transform:scale(1.01);}
+  #search:focus{box-shadow:inset 0 0 0 1.5px var(--accent),var(--glass-shadow);transform:scale(1.01);}
 
   .filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.5rem;}
   body:not([data-page="habilidades"]) .controls,
@@ -304,51 +304,40 @@
   .ps5-grid .ctrl-row:nth-last-child(-n+2){border-bottom:none;}
   @media(max-width:420px){.ps5-grid .ctrl-row:nth-last-child(-n+2){border-bottom:0.5px solid var(--border);}.ps5-grid .ctrl-row:last-child{border-bottom:none;}}
 
-  /* jugadores table */
-  .players-table{
-    border-radius:var(--radius);overflow:hidden;margin-bottom:1.25rem;
-  }
-  .player-row{display:flex;align-items:stretch;border-bottom:0.5px solid var(--border);transition:background 0.25s var(--smooth);}
-  .player-row:last-child{border-bottom:none;}
-  .player-row:hover{background:rgba(127,127,127,0.08);}
-  .player-num{width:28px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--text3);border-right:0.5px solid var(--border);}
-  .player-photo-cell{width:104px;flex-shrink:0;display:flex;flex-direction:column;background:rgba(127,127,127,0.06);border-right:0.5px solid var(--border);}
-  .player-photo-img{width:104px;height:148px;object-fit:cover;display:block;transition:transform 0.28s var(--smooth);}
-  .player-row:hover .player-photo-img{transform:scale(1.04);}
-  .player-photo-placeholder{width:104px;height:148px;align-items:center;justify-content:center;color:var(--text3);font-size:26px;}
-  .player-url-input{width:104px;border:none;border-top:0.5px solid var(--border);background:transparent;color:var(--text3);font-size:9px;text-align:center;padding:4px 2px;outline:none;font-family:inherit;}
-  .player-url-input:focus{color:var(--text);}
-  .player-name-cell{flex:1;display:flex;align-items:center;min-width:0;}
-  .player-name-input{width:100%;border:none;background:transparent;color:var(--text);font-size:13.5px;font-weight:600;padding:0 14px;outline:none;font-family:inherit;}
-  .player-name-input::placeholder{color:var(--text3);font-weight:400;}
-  .players-toolbar{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:1.25rem;flex-wrap:wrap;}
-  .players-toolbar .search-wrap{flex:0 1 260px;min-width:140px;}
-  .players-count{font-size:11.5px;color:var(--text3);white-space:nowrap;font-weight:500;}
-
-  /* export modal */
-  .modal-overlay{
-    position:fixed;inset:0;background:rgba(0,0,0,0.35);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-    display:none;align-items:center;justify-content:center;z-index:1000;padding:20px;
-  }
-  .modal-overlay.visible{display:flex;animation:fadeIn 0.22s var(--smooth);}
-  @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
-  .modal-box{
-    -webkit-backdrop-filter:var(--glass-blur-lg);backdrop-filter:var(--glass-blur-lg);
-    background:var(--glass-strong);
-    box-shadow:inset 0 1px 0 var(--glass-edge-soft),inset 0 0 0 0.5px var(--glass-edge),var(--glass-shadow-lg);
-    border-radius:24px;padding:20px;max-width:540px;width:100%;max-height:80vh;display:flex;flex-direction:column;gap:12px;
-    animation:modalIn 0.28s var(--spring);
-  }
-  @keyframes modalIn{from{opacity:0;transform:scale(0.92) translateY(12px);}to{opacity:1;transform:scale(1) translateY(0);}}
-  .modal-title{font-size:15px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:7px;letter-spacing:-0.01em;}
-  .modal-desc{font-size:12px;color:var(--text3);line-height:1.6;}
-  .modal-textarea{
-    width:100%;flex:1;min-height:220px;background:rgba(127,127,127,0.08);border:none;box-shadow:inset 0 0 0 0.5px var(--border);
-    border-radius:var(--radius-sm);color:var(--text);font-family:"SF Mono",Menlo,monospace;font-size:11px;padding:12px;resize:vertical;outline:none;
-    transition:box-shadow 0.22s var(--smooth);
-  }
-  .modal-textarea:focus{box-shadow:inset 0 0 0 1.5px var(--accent);}
-  .modal-actions{display:flex;justify-content:flex-end;gap:8px;}
+  /* descripción habilidades */
+  .dsc-toolbar{display:flex;align-items:center;gap:10px;margin-bottom:1rem;flex-wrap:wrap;}
+  .dsc-toolbar .search-wrap{flex:1;min-width:200px;}
+  #desc-search{width:100%;padding:8px 12px 8px 34px;border-radius:980px;color:var(--text);font-size:13px;outline:none;transition:box-shadow 0.26s var(--smooth),transform 0.26s var(--spring);}
+  #desc-search:focus{box-shadow:inset 0 0 0 1.5px var(--accent),var(--glass-shadow);transform:scale(1.01);}
+  .pad-btn{background:transparent;border:none;border-radius:980px;padding:6px 14px;font-size:12px;font-weight:590;color:var(--text2);cursor:pointer;transition:all 0.26s var(--spring);}
+  .pad-btn.active{background:var(--glass-strong);color:var(--text);box-shadow:inset 0 0 0 0.5px var(--glass-edge),0 2px 8px rgba(0,0,0,0.08);}
+  .dfilters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;}
+  .dfilters.last{margin-bottom:1.25rem;}
+  .dfilter{border-radius:980px;padding:7px 15px;font-size:12.5px;font-weight:590;color:var(--text2);cursor:pointer;transition:transform 0.26s var(--spring),box-shadow 0.22s var(--smooth);}
+  .dfilter:hover{transform:translateY(-2px) scale(1.03);box-shadow:inset 0 1px 0 var(--glass-edge-soft),inset 0 0 0 0.5px var(--glass-edge),var(--glass-shadow-lg);}
+  .dfilter:active{transform:translateY(0) scale(0.95);}
+  .dfilter .n{font-size:10.5px;font-weight:600;opacity:0.6;margin-left:5px;}
+  .dfilter.active{color:var(--c,var(--text));font-weight:650;background:linear-gradient(var(--glass-strong),var(--glass-strong)),radial-gradient(circle at 20% 20%,var(--cs,transparent),transparent 70%);box-shadow:inset 0 0 0 1px var(--cr,var(--glass-edge)),inset 0 1px 0 var(--glass-edge-soft),var(--glass-shadow);}
+  .dsc-count{font-size:11.5px;color:var(--text3);margin:0 2px 1rem;}
+  .dgrid{display:grid;grid-template-columns:1fr;gap:10px;}
+  .dcard{border-radius:var(--radius-sm);padding:11px 14px;cursor:pointer;border-left:3px solid var(--b);transition:box-shadow 0.26s var(--smooth),transform 0.28s var(--spring),background 0.22s var(--smooth);}
+  .dcard:hover{transform:translateY(-2px);box-shadow:inset 0 1px 0 var(--glass-edge-soft),inset 0 0 0 0.5px var(--glass-edge),var(--glass-shadow-lg);}
+  .dcard.open{background:var(--glass-strong);}
+  .dc-top{display:flex;align-items:center;gap:8px;min-height:26px;}
+  .dc-name{font-size:13.5px;font-weight:600;flex:1;min-width:0;letter-spacing:-0.005em;}
+  .dc-tier{font-size:10.5px;font-weight:650;padding:2px 9px;border-radius:980px;color:var(--tc);background:color-mix(in srgb,var(--tc) 15%,transparent);white-space:nowrap;}
+  .dc-chev{font-size:13px;color:var(--text3);transition:transform 0.28s var(--spring);}
+  .dcard.open .dc-chev{transform:rotate(180deg);}
+  .dc-effect{font-size:11.5px;color:var(--text3);margin-top:3px;display:flex;align-items:center;gap:5px;}
+  .dc-effect i{color:var(--b);font-size:12px;}
+  .dc-body{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows 0.28s var(--smooth),opacity 0.22s var(--smooth);}
+  .dcard.open .dc-body{grid-template-rows:1fr;opacity:1;}
+  .dc-inner{overflow:hidden;min-height:0;}
+  .dc-lbl{font-size:11px;font-weight:650;color:var(--text3);margin:12px 0 4px;display:flex;align-items:center;gap:5px;}
+  .dc-lbl:first-child{margin-top:10px;}
+  .dc-txt{font-size:12.5px;color:var(--text2);line-height:1.6;}
+  .kbd{display:inline-flex;align-items:center;padding:1px 7px;margin:0 1px;border-radius:7px;font-size:11px;font-weight:650;color:var(--text);background:rgba(127,127,127,0.16);box-shadow:inset 0 0 0 0.5px var(--border-strong);}
+  .dc-combo{display:inline-flex;align-items:center;gap:5px;margin:10px 6px 0 0;padding:3px 10px;border-radius:980px;font-size:11.5px;font-weight:590;color:var(--accent);background:var(--accent-soft);}
 
   /* placeholder pages */
   .placeholder-page{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4rem 1rem;gap:12px;color:var(--text3);}
@@ -432,7 +421,7 @@
     <button class="page-tab active" onclick="showPage('habilidades')"><i class="ti ti-ball-football" style="font-size:12px;margin-right:4px;vertical-align:-1px;"></i>Habilidades</button>
     <button class="page-tab" onclick="showPage('configuraciones')"><i class="ti ti-settings" style="font-size:12px;margin-right:4px;vertical-align:-1px;"></i>Configuraciones</button>
     <button class="page-tab" onclick="showPage('mods')"><i class="ti ti-puzzle" style="font-size:12px;margin-right:4px;vertical-align:-1px;"></i>Mods y archivos</button>
-    <button class="page-tab" onclick="showPage('jugadores')"><i class="ti ti-users" style="font-size:12px;margin-right:4px;vertical-align:-1px;"></i>Jugadores</button>
+    <button class="page-tab" onclick="showPage('descripcion')"><i class="ti ti-list-details" style="font-size:12px;margin-right:4px;vertical-align:-1px;"></i>Descripción habilidades</button>
   </div>
 
   <!-- PAGE: Habilidades -->
@@ -640,34 +629,25 @@
     </div>
   </div>
 
-  <!-- PAGE: Jugadores -->
-  <div class="page-view" id="page-jugadores">
-    <div class="players-toolbar">
-      <button class="btn" onclick="sortPlayersAlpha()"><i class="ti ti-arrows-sort"></i> A-Z</button>
+  <!-- PAGE: Descripción habilidades -->
+  <div class="page-view" id="page-descripcion">
+    <div class="dsc-toolbar">
       <div class="search-wrap">
         <i class="ti ti-search"></i>
-        <input id="players-search" type="text" placeholder="Buscar jugador..." oninput="filterPlayers()">
+        <input id="desc-search" type="text" placeholder="Buscar habilidad, comando o efecto..." oninput="renderDesc()">
       </div>
-      <span class="players-count" id="players-count"></span>
-      <button class="btn" onclick="exportPlayers()"><i class="ti ti-download"></i> Exportar</button>
+      <div class="sort-group">
+        <button class="pad-btn active" data-pad="ps" onclick="setPad('ps')">PlayStation</button>
+        <button class="pad-btn" data-pad="xb" onclick="setPad('xb')">Xbox</button>
+      </div>
     </div>
-    <div class="players-table" id="players-table"></div>
-    <p class="hint"><i class="ti ti-info-circle" style="font-size:12px;vertical-align:-1px;margin-right:3px;"></i>Pega la URL de la imagen y escribe el nombre en cada fila. Se guarda automáticamente en este navegador.</p>
+    <div class="dfilters" id="desc-fam"></div>
+    <div class="dfilters last" id="desc-tier"></div>
+    <div class="dsc-count" id="desc-count"></div>
+    <div id="desc-content"></div>
+    <p class="hint"><i class="ti ti-hand-click" style="font-size:12px;vertical-align:-1px;margin-right:3px;"></i>Toca una habilidad para ver cómo se activa y su descripción</p>
     <div class="dark-toggle-wrap">
-      <button class="btn" onclick="toggleDark()" id="dark-btn-jugadores"><i class="ti ti-sun"></i> Claro</button>
-    </div>
-  </div>
-
-  <!-- Export modal -->
-  <div class="modal-overlay" id="export-modal">
-    <div class="modal-box">
-      <div class="modal-title"><i class="ti ti-download"></i>Exportar jugadores</div>
-      <div class="modal-desc">Copia este código y pégalo en tu index.html (por ejemplo, sustituyendo la lista de jugadores) para que se vea igual para todo el mundo, no solo en tu navegador.</div>
-      <textarea class="modal-textarea" id="export-textarea" readonly onclick="this.select()"></textarea>
-      <div class="modal-actions">
-        <button class="btn" onclick="closeExportModal()">Cerrar</button>
-        <button class="btn" id="copy-export-btn" onclick="copyExport()"><i class="ti ti-copy"></i> Copiar</button>
-      </div>
+      <button class="btn" onclick="toggleDark()" id="dark-btn-desc"><i class="ti ti-sun"></i> Claro</button>
     </div>
   </div>
 
@@ -675,7 +655,7 @@
 // Disable right-click context menu
 document.addEventListener('contextmenu', e => e.preventDefault());
 
-const PAGES = ['habilidades','configuraciones','mods','jugadores'];
+const PAGES = ['habilidades','configuraciones','mods','descripcion'];
 function showPage(id) {
   PAGES.forEach(p => {
     document.getElementById('page-'+p).classList.toggle('active', p===id);
@@ -779,7 +759,7 @@ function toggleDark() {
   darkMode = !darkMode;
   document.documentElement.setAttribute('data-mode', darkMode ? 'dark' : '');
   const label = darkMode ? '<i class="ti ti-sun"></i> Claro' : '<i class="ti ti-moon"></i> Oscuro';
-  ['dark-btn','dark-btn-cfg','dark-btn-mods','dark-btn-jugadores'].forEach(id => {
+  ['dark-btn','dark-btn-cfg','dark-btn-mods','dark-btn-desc'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.innerHTML = label;
   });
@@ -1012,166 +992,89 @@ renderStats();
 renderPending();
 render();
 
-/* ===== Jugadores (tabla editable de 500 celdas) ===== */
+/* ===== Descripción habilidades ===== */
+const SKILL_DOCS = [[1,"reg","std","Scissors Feint","[Stick Derecho (RS)] + [Stick Izquierdo (LS)] while running to initiate the stepover feint and break into sprint with the speed boost.","Performs a faster type of Scissors Feint than normal when entering a Scissors Feint command.","Accelerates leg turnover on stepover feints reducing cycle time to 0.20s, enabling rapid multi-directional breakouts.","Stepover Feint / 0.20s Mocap Latency",[]],[2,"reg","std","Double Touch","[Stick Derecho (RS)] ↑/↓ + [Stick Izquierdo (LS)] + while running to shift the ball to the other foot and break through in 0.32s.","Performs a faster type of Double Touch than normal when entering a Double Touch command.","Unlocks rapid foot-to-foot croqueta in 0.32s without linear momentum loss. Composite Combo: When paired with Flip Flap and Sole Control, activates the Special Double Touch, halving frame cycle and executing a continuous sole drag.","Fast Croqueta / 0.32s Window",["Combo: Doble Toque Especial"]],[3,"reg","std","Flip Flap","[Stick Derecho (RS)] ↘ + [Stick Izquierdo (LS)] ↗ to execute the quick outside-to-inside elastic flick.","Performs a Flip Flap feint when entering a Flip Flap command.","Enables classic two-touch flip flap mocap montage (0.28s). Composite Combos: Paired with Sole Control unlocks Quick Reverse Flip Flap (accelerated inside cut); combined with Double Touch and Sole Control triggers Special Double Touch (sole drag).","Classic Flip Flap / 0.28s Recovery",["Combo: Doble Toque · Elástica Inversa"]],[4,"reg","std","Marseille Turn","[Stick Derecho (RS)] + [Stick Izquierdo (LS)] ↓ to spin while shielding the ball and square up for the cross.","Performs a faster type of Marseille Turn than normal when entering a Marseille Turn command.","Unlocks the 360° Marseille roulette montage, shielding the ball with the player's frame to prevent side tackles.","Marseille Turn / Body Shielding",[]],[5,"reg","std","Sombrero","Hold [R3] + [Stick Izquierdo (LS)] upon trapping an aerial ball or on the first bounce to flick the ball over the opponent's head.","Increases the accuracy of Sombrero and Rainbow Flick. Also allows the player to perform a Sombrero when receiving a Low Pass.","Enables overhead sombrero self-passes over advancing defenders on aerial receptions, keeping the ball airborne.","Aerial Sombrero / Overhead Self-Pass",[]],[6,"reg","std","Chop Turn","[○ Círculo] + [✕ Cruz] + [Stick Izquierdo (LS)] to brake instantly and chop the ball behind the standing leg.","Performs a faster type of Chop Turn than normal when entering a Chop Turn command.","Enables sharp acute chop cuts toward the dominant foot, eliminating previous linear momentum for explosive exits.","Acute Angle Cut / Instant Burst",[]],[7,"reg","std","Cut Behind & Turn","[○ Círculo] + [✕ Cruz] + [Stick Izquierdo (LS)] to execute the rapid interior cut squaring up onto the dominant foot.","Performs a Cut Behind. When turning at a wide angle, also uses a special trapping motion.","Dual-Core Mechanic: 1) Active Feint (Cruyff Turn / Ronaldo Chop): On fake shot/pass, chops the ball behind the standing leg shielding it from tackles at 90°-135° (works both sprinting and walking). 2) Improvised First-Touch Trap: Under tight pressure from behind, releasing Dash before ball contact and steering at wide angles (90°-180°) triggers an instant one-touch behind-the-standing-leg turn trap.","Improvised Heel Chops / Unorthodox Foot Switches",["Dual Mechanic: Feint + Special Trap"]],[8,"reg","std","Scotch Move","[Stick Derecho (RS)] ⬅ + [Stick Izquierdo (LS)] + to push the ball behind the standing pivot foot.","Performs a Scotch Move feint when entering a Scotch Move command.","Unlocks standing-foot pivot montages to hold off center-backs and execute 180° turns while shielding ball possession.","Standing Foot Pivot / Zero Decay Turn",[]],[9,"reg","std","Sole Control","[Stick Izquierdo (LS)] at low speed or releasing Sprint [R2] before trapping to cushion and control the ball with the sole.","Enables the player to control the ball more using the soles of his feet when executing feints and turns.","Enables 360° sole-trapping mocap montages and immediate orientation turns. Key combo catalyst: Unlocks Quick Reverse Flip Flap (with Flip Flap) and Special Double Touch (with Double Touch + Flip Flap).","360° Sole Trapping / Stumble Suppression",["Combo: Doble Toque · Elástica Inversa"]],[10,"tir","std","Heading","On aerial crosses and high balls. Overrides priority rule: always seeks header (without skill requires Heading > Finishing + 10). Exclusively enables diving header animations on low or driven balls.","Improves the accuracy of headers as well as the frequency of downward headers.","Injects an effective bonus of +5 Heading points exclusively on goal attempts (does not apply to defensive clearances or midfield duels). Exclusively unlocks the diving flying header animation on waist-height crosses, forces downward bounce trajectories against the pitch, and overrides shot priority to strike with the head even if foot Finishing is higher. Synergy with Heading stat: complements the 86 base Heading threshold: a card with 85 base Heading + Heading skill reaches the optimal 90 plateau when heading towards goal.","+5 Heading on goal attempts / Diving flying header",["🎯 +5 Goal Header · Exclusive Diving Header"]],[11,"tir","std","Long-range Curler","From outside the penalty box (16.5–30m) aiming the stick towards the far post.","Performs a sharp, accurate Controlled Shot with a heavy curl that often hits the target even from a long distance.","Injects +5 to Curl and Finishing on finesse attempts from outside the box, tightening the swerve toward the far post.","+5 Curl & Finishing on Long Curled Shots",[]],[12,"tir","std","Chip Shot Control","In 1v1 situations against the goalkeeper; lofts an accurate chip trajectory over the diving keeper.","Performs an accurate Chip Shot, even when moving at high speed.","Optimizes initial ball lift trajectory and shortens chip shot wind-up latency, improving lob accuracy over the keeper by +12%.","+12% Chip Shot Arc Accuracy",[]],[13,"tir","std","Knuckle Shot","With power > 65% and tap Shoot a second time just before ball impact; produces an erratic, dipping knuckleball with zero spin.","Performs a Knuckle Shot when entering a Stunning Shot command while the Power Gauge is 50-65％ full. A good free kick option.","Suppresses gyroscopic spin and injects random sinusoidal oscillations along Y/Z axes, producing erratic knuckleball movement that confounds keepers.","Sinusoidal Z Turbulence / Knuckleball Dip",[]],[14,"tir","std","Dipping Shot","With medium power (50–75%) on bouncing or running balls; trajectory dips sharply right in front of the goal line.","Performs a Dipping Shot when entering a Stunning Shot command while the Power Gauge is 20-50％ full.","Forces artificial downward gravitational Acceleration in late flight stages, making the shot dip sharply right under the crossbar.","Accelerated Ballistic Drop at Goal Line",[]],[15,"tir","std","Rising Shot","With high power (> 60%) while driving forward with the ball; trajectory rises sharply into the top corner.","Performs a Rising Shot when entering a Stunning Shot command while the Power Gauge is 65-95％ full.","Negates gravitational decay by locking a progressive rising vector, driving the shot linearly into the upper corners at high Speed.","Linear Rising Trajectory without Drop",[]],[16,"tir","std","Long-range Shooting","From distances beyond 20 meters; tightens shot dispersion and boosts velocity on long-range efforts.","Performs a Long-range Shot from outside the box that often hits the target.","Injects +4 to Finishing and Kicking Power on attempts taken from beyond 20 meters, keeping long-range strikes on target.","+4 Finishing & Shot Power (> 20m)",[]],[17,"tir","std","Acrobatic Finishing","On awkward or awkward-height aerial deliveries inside the box; executes bicycle kicks, scissor volleys, and contorted finishes.","Enables the player to find a finish even from awkward positions or when off balance.","Enables acrobatic Finishing montage clips (bicycle kicks, side volleys, flying headers) with +5 local accuracy on difficult high deliveries.","Bicycle Kicks & Awkward Volleys / +5 Accuracy",[]],[18,"tir","std","Heel Trick","When the ball is positioned behind the body or facing away; flicks the ball with the heel or back of foot.","Enables the player to pass and shoot using the heel, even from awkward positions or when off balance.","Unlocks backheel montage clips allowing immediate delivery without reorienting body torso, with +4 local accuracy.","Heel Delivery without Body Turn / +4 Acc",[]],[19,"tir","std","First-time Shot","Powered up before the ball reaches the player; strikes instantly on the first touch without trapping, retaining pinpoint accuracy.","Improves technique and precision when taking first-time shots.","Suppresses plant-foot positioning latency and injects +5 to Finishing, delivering accurate and powerful first-time shots without trapping.","+5 Finishing / No Plant Foot Delay",[]],[20,"pas","std","One-touch Pass","Pressed before receiving the ball; delivers accurate passes instantly on first touch without trapping delay.","Improves technique and precision when executing one-touch passes.","Removes plant-foot preparation frames on first-time passes and injects +5 to delivery accuracy, accelerating ball circulation.","+5 Pass Stats / -0.2s Execution Latency",[]],[21,"pas","std","Through Passing","When playing ground through-balls; curves trajectory around defenders into the path of running teammates.","Enables the player to make through passes with the appropriate trajectory. Also improves the overall accuracy of through passes.","Modifies the engine's through-ball ballistic error cone, ensuring tight trajectories matching the runner's sprint line without losing roll Speed.","-35% Angular Dispersion on Through Balls",[]],[22,"pas","std","Weighted Pass","On long aerial deliveries; applies heavy backspin so the ball checks up upon bouncing.","Performs an accurate Lofted Pass or Chipped Through Ball with heavy backspin to a forward area.","Injects inverse gyroscopic back-spin into the Lofted Pass trajectory, dampening bounce velocity to prevent the ball from running away from the receiver.","Back-spin Rotation / Grip on Bounce",[]],[23,"pas","std","Pinpoint Crossing","When crossing from wide areas; delivers whipped crosses with exceptional curl and precision onto the attacker's head.","Performs a sharp, accurate cross with a heavy curl.","Injects +5 to Curl and Lofted Pass when crossing from wide channels, curling the delivery around defenders directly onto attackers.","+5 Curl & Lofted Pass on Crosses",[]],[24,"pas","std","Outside Curler","Angling body towards dominant foot side; strikes with the outside of the dominant boot, avoiding weak foot usage.","Performs a precise spinning shot or pass with the outside of the boot, even from range, using the stronger foot for accuracy.","Modifies curl physics for outside-of-the-boot shooting and passing. Kinematic compensation: Neutralizes +3 to +8 preparation frame penalties in players with Weak Foot Usage 1 (Almost Never), executing instant trivelas preserving 100% of nominal stats.","Convex Outside-Foot Curl",["🎯 Kinematic Weak-Foot Compensation: Trivela"]],[25,"pas","std","Rabona","When the ball favors the weaker foot; wraps dominant leg behind standing leg to strike or cross.","Performs a Rabona to disrupt the defence's timing with a surprise kick, using the stronger foot for accuracy.","Enables rabona montage on compromised crosses and shots. Kinematic compensation: Substitutes weak-foot deliveries by wrapping the dominant leg behind the plant foot, preventing accuracy and velocity drop-offs.","Crossed Rabona / Weak-Foot Compensation",["🎯 Kinematic Weak-Foot Compensation: Rabona"]],[26,"pas","std","No Look Pass","Delivering passes at a 45°–90° angle while player's head faces forward; deceives defenders by disguising passing intent.","Enables the player to play unexpected passes and confuse the opponent with his lines of sight.","Executes a no-look pass montage that injects a 0.25s reaction hesitation into opposing defensive AI intercept calculations.","Defense AI Delay -0.25s / No-Look Animation",[]],[27,"pas","std","Low Lofted Pass","To deliver a low, flat trajectory aerial pass that travels swiftly over defenders.","Enables the player to hit long and accurate Lofted Passes with a low trajectory.","Caps Lofted Pass ceiling at 2.2 meters with a fast trajectory, clearing midfield lines while landing directly into the forward's stride.","Low Arc / Height < 2.2m",[]],[28,"por","std","GK Low Punt","When drop-kicking with goalkeeper; delivers a fast, flat, low-trajectory ball to launch rapid counter-attacks.","Enables the player to take accurate punt kicks with a low trajectory.","Restricts goalkeeper punt trajectory below 3.0 meters with high velocity, reaching attackers before defenders can intercept.","Flat Punt / Height < 3m",[]],[29,"por","std","GK High Punt","When drop-kicking with goalkeeper; delivers a high-arcing, deep punt into the opponent's half for aerial knockdowns.","Enables goalkeepers to take long, high punt kicks that end up deep in opposition territory.","Adjusts long punt flight path elevating the ball above 12 meters, allowing physical target men time to contest aerial duels.","High Arc / Height > 12m",[]],[30,"pas","std","Long Throw","During throw-ins to propel the ball with massive power and distance directly into the opponent's box.","Improves the range of long throws.","Modifies throw-in ballistics extending range to 35 meters with higher launch velocity, enabling direct crossing into the box.","Range 35m / Flat Trajectory",[]],[31,"por","std","GK Long Throw","While holding the ball with goalkeeper; launches powerful overhand throws past midfield with pinpoint accuracy.","Improves the range on throws by the goalkeeper.","Increases exit velocity and reach of goalkeeper hand throws up to 45 meters with a flat arc, initiating instant counter-attacks to wide players.","Range 45m / Fast Breakout",[]],[32,"tir","std","Penalty Specialist","During penalty kicks; greatly enhances placement accuracy into top and bottom corners without spraying wide.","Enables the player to take higher accuracy penalty kicks.","Injects +7 to Finishing and tightens aim dispersion during penalty kicks, ensuring pinpoint placement inside the posts.","+7 Finishing / Penalty Precision Cone",[]],[33,"por","std","GK Penalty Saver","When diving during opponent penalty kicks; goalkeeper reacts with enhanced dive speed and reach towards the posts.","Enables the player to have better goalkeeping reactions against penalty kicks.","Injects +6 to GK Reflexes and Reach on penalty kicks while boosting lateral diving Speed by +10% toward the bottom corners.","+6 GK Reflexes / +10% Diving Speed",[]],[34,"men","std","Gamesmanship","In physical shoulder duels near opponent penalty box; exaggerates contact to win free kicks, cards, and penalties.","Wins fouls more easily when in possession of the ball.","Adjusts the referee engine decision threshold by 1.35x when calculating fouls during physical duels, increasing card probabilities for opponents.","+35% Foul Call Probability",[]],[35,"def","std","Man Marking","Set Man Marking on an opponent forward or hold [L2 / LT] (Match-up) to shadow their runs and deny separation space.","Reacts quickly to an opponent's movements and applies tight marking that is hard to shake.","Modifies defensive AI steering vectors reducing marking separation by 30%, preventing attackers from receiving unmarked or cutting behind.","-30% Tracking Distance / Anti-Run Cut",[]],[36,"def","std","Track Back","In defensive phase after losing possession; the player aggressively tracks back deep into own half to press the ballcarrier.","Enables the player to aggressively apply pressure to the opposition ballholder all the way from the frontlines.","Overrides forward tactical AI on ball loss, initiating immediate recovery runs with +15% tracking Acceleration to pressure opponents from behind.","+15% Tracking Back Acceleration",[]],[37,"def","std","Interception","Positioning defender in opponent passing lane; automatically extends leg or body to cut out through-balls and passes.","Reacts quickly to passes and intercepts them at a higher rate.","Enables 360° leg-extension animation nodes in the blend tree, extending effective intercept reach by +0.6m without compromising defensive momentum.","+0.6m Intercept Reach / Mocap Nodes",[]],[38,"def","std","Blocker","Standing directly in trajectory of opponent shots or crosses; throws body into the line of fire to block the ball.","Reacts quickly to kicks by blocking passes and shots at a high rate, and also limits the amount of rebound.","Triggers full-body blocking and sliding screen animation montages when a shot is aimed on target, expanding defensive coverage by +0.8 meters.","+0.8m Block Coverage / Body Deflections",[]],[39,"def","std","Aerial Superiority","In aerial contests and clearances; jumps higher, shields with body leverage, and dominates physical strikers.","Gains an advantage during mid-air battles and maintains heading accuracy more easily.","Injects +4 temporary points to Jumping and Physical Contact during aerial collision frames, winning positional authority against opponents.","+4 Jumping & Aerial Physical Contact",[]],[40,"def","std","Sliding Tackle","In defense; executes a clean ground slide tackle that hooks the ball away with reduced foul likelihood.","Performs a Sliding Tackle with greater accuracy and speed, and wins the ball more easily.","Increases slide reach by +0.8m while applying a 15% mitigating factor in referee foul evaluations upon touching the ball.","+0.8m Slide Reach / -15% Card Risk",[]],[41,"def","std","Acrobatic Clearance","Inside own penalty area under awkward aerial pressure; clears danger via bicycle kick, contorted volley, or backheel.","Enables the player to clear the ball using his feet, even from awkward positions.","Unlocks acrobatic clearance montage clips (scissor kicks and overhead kicks) when clearing off the goal line under pressure.","Bicycle/Scissor Clear / Zero Stumble",[]],[42,"men","std","Captaincy","Designate player as team Captain; reduces stamina depletion and fatigue rates across the entire starting eleven.","Become the team's inspiration on the pitch, reducing the effects of fatigue for the entire team.","Applies a passive 6% reduction to Stamina consumption across all teammates on the pitch, mitigating collective fatigue in late-game stages.","-6% Global Team Stamina Drain",[]],[43,"men","std","Super-sub","[Bench] substitute player on at or after half-time (min 46+) or extra time; boosts attributes significantly as if on green/blue form arrow.","Improves player's abilities when introduced after the second half mark.","Injects flat +1 to 25 core player attributes upon substitution from 2nd half onwards (excludes Stamina and Weak Foot). Subject to Layer 1 cap of 99.","+1 to 25 Core Attributes (Flags 1-4, Cap 99)",[]],[44,"men","std","Fighting Spirit","When stamina drops below 25%, player is fatigued, or team is trailing; nullifies fatigue-induced passing and shooting inaccuracies.","Rarely loses kicking or heading accuracy when pressured by an opponent, and is less affected by fatigue.","Does NOT provide infinite Stamina. Multiplies pressure error penalty by 0.8 (20% reduction) even at 100% Stamina, and delays autonomous running fatigue tier downgrade from 60% to 75% consumed Stamina (85% with Captaincy).","-20% Error under Pressure / +15% Fatigue Threshold",[]],[45,"tir","st","Phenomenal Finishing","On first-time shots from awkward body postures, off-balance angles, or with back to goal; strikes with lethal power and precision.","Increases the power and accuracy of finishing shots attempted from unorthodox body positions.","Grants local Finishing +7 for off-Balance and difficult posture shots, exceeding the 99 cap (99 -> 106). Reduces backward shot error (0.3 -> 0.8) and avoids angular ability discounts.","Local Finishing +7 (Uncapped) / Backward & Acrobatic Error Reduction",[]],[46,"def","st","Fortress","During 2nd half or extra time (min 46+) while team leads; dramatically boosts defensive attributes and tackle success across the backline.","Improves player's defensive abilities after the second half mark, as long as the team has a goal advantage.","Injects +6 to Defensive Awareness, Tackling, Aggression and Defensive Engagement while leading from minute 46. Enters Layer 1 capped at 99 (max benefit at pre-addition 93; if already 99, remains 99).","+6 to 4 Defensive Stats (Cap 99)",[]],[47,"reg","st","Momentum Dribbling","[Stick Izquierdo (LS)] + [R2] sprinting in attacking half (X ≥ +18m) after beating a defender in the 2nd half; maintains peak burst acceleration and razor-sharp agility.","Improves player's dribbling abilities in the attacking third (deep in opposition territory).","Grants +6 to Dribbling, Tight Possession, Speed and Acceleration when carrying ball past X >= +18m. Capped at 99 in Layer 1. Does not stack with Attacking Surge (which requires a teammate to possess the ball).","+6 Dribbling, Tight Possession, Speed, Accel (X >= +18m, Cap 99)",[]],[48,"pas","st","Game-changing Pass","During 2nd half when tied or trailing; through-balls gain enhanced trajectory curl and assisted velocity.","Improves player's passing abilities after the second half kick-off, under the circumstances that the team is either drawing or losing.","Adds +6 to Low Pass and Lofted Pass when tied or trailing from minute 46 onwards. Enters Layer 1 capped at 99.","+6 Low Pass & Lofted Pass (Tied or Trailing in 2nd Half, Cap 99)",[]],[49,"pas","st","Visionary Pass","Upon receiving, the targeted teammate receives an immediate burst in acceleration and first-touch control.","Increases the accuracy of one-touch passes, first-time shots and traps performed by players who receive passes from the holder of this Player Skill.","Tags ball actor in memory. Receiver gets local +6 to the active stat of their first action (e.g. Finishing on 1-touch shot, Low Pass on 1-touch pass). Uncapped at 99 (99 -> 105). Crucial: marker is destroyed immediately upon an ordinary trap or Dribbling!","Local +6 to Receiver Action Stat (Uncapped, cleared on trap/Dribbling)",[]],[50,"pas","st","Edged Crossing","When crossing from wide flanks; whips ball with wicked, hyper-sharp inward curl into the 6-yard corridor.","Enables the player to put in vertically rotating crosses that fall sharply.","Selects motion 80 with specialized top-spin components and elevated launch angle (+2.5° to +3.8°) to produce a dipping cross over the defensive line. Requires ball Speed under 30 km/h before delivery.","Dedicated Dipping Cross Trajectory (< 30 km/h, Dist 12-32m)",[]],[51,"tir","st","Blitz Curler","With power gauge ≥ 50% from 20 to 35 meters; ball generates fierce topspin dip into the top corner.","Performs a Controlled Shot with heavy topspin while the Power Gauge is at least 50％ full.","Curled Controlled Shots (R1/RB) from 20 to 35m with 50%–95% power gauge. Triggers an aggressive dipping Magnus top-spin trajectory.","Sharp dipping curve trajectory on Controlled Shots from diagonals & wings (20–35m, Gauge 50%–95%)",[]],[52,"pas","st","Phenomenal Pass","Executed from awkward body shapes, 180° turns, or under heavy contact; delivers pinpoint passes without reorienting body.","Increases the power and accuracy of passes attempted from unorthodox body positions.","Adds local +6 to Low Pass or Lofted Pass on awkward posture deliveries without capping at 99 (99 -> 105). Eliminates backward Speed error (0.3 -> 0.8) and prevents angular power discounts.","Local Low/Lofted Pass +6 (Uncapped) / Angular Error Reduction",[]],[53,"tir","st","Bullet Header","On headed efforts from crosses; unleashes a bullet-velocity downwards header directed precisely into the side netting.","Enables the player to head the ball sharply towards goal, shooting with power and accuracy even from awkward positions or when off balance.","Does not add flat Heading attribute points. Raises maximum ball Speed bound by +4 km/h, halves contact error severity (x0.5), and improves directional mismatch retention. Coexists with standard Heading (+5).","+4 km/h Max Speed Bound / Contact Error x0.5",[]],[54,"reg","st","Acceleration Burst","[Stick Izquierdo (LS)] + 2x [R2] sharp [Stick Izquierdo (LS)] cut (15°–120°) after soft touch; unleashes explosive first-yard burst to leave defenders flat-footed.","Enables the player to perform a quick Sharp Touch while stationary or moving slowly. Special Sharp Touch motions may also be triggered.","Unlocks quick hook-touch animations for direction changes between 15.5° and 120°, applying a 1.025x Speed parameter multiplier and +0.1 to Tight Possession contact timing.","+2.5% Speed Multiplier / +0.1 Tight Possession Timing",[]],[55,"def","st","Aerial Fort","On aerial crosses inside own penalty box; defender leaps with supreme vertical elevation over forwards to guarantee clean clearances.","Improves player's abilities regarding aerial duels when positioned inside his own penalty box.","Defensive Show Time skill granting superiority in aerial duels inside own penalty area against rival attackers.","+4 to Physical Contact and Jumping during aerial duels inside own penalty box (-18m zone)",[]],[56,"def","st","Long-reach Tackle","Standing tackle; extends leg over 1.8 meters toward attacker to hook ball cleanly without conceding a foul.","Increases the frequency of standing tackles, even against far away opponents, while stationary or moving slowly.","Multiplies standing tackle interception radius by 1.15x, winning distant balls cleanly without fouling.","+15% Standing Tackle Reach / Extended Leg Trigger Range",[]],[57,"por","st","GK Directing Defence","Goalkeeper positioned in deep defensive third (X ≤ -18m); coordinates CBs and fullbacks, improving defensive compact shape.","Goalkeeper Skill that improves the defensive abilities of your DF players positioned deep in your own territory.","Grants +2 Defensive Awareness and +2 Aggression (NOT Tackling) to CBs and fullbacks situated deeper than 18m behind midfield in own half. Capped at 99.","+2 Defensive Awareness & +2 Aggression (X <= -18m, Cap 99)",[]],[58,"tir","st","Low Screamer","With power gauge under 50%; unleashes a low skidding rocket hugging the turf that catches keepers cold.","Performing a Stunning Shot while the Power Gauge is under 50％ full will increase the speed of the shot. A Dipping Shot will not occur.","Stunning Shots with 1%–49% power. In the optimal 40%–49% window, ball velocity gains +5.4 km/h (+25 Kicking Power equivalent) with a flat trajectory.","Equivalent to +25 Kicking Power (+5.4 km/h ball speed) on Stunning Shots (Gauge 1%–49%, optimal 40%–49%)",[]],[59,"tir","st","Willpower","Stacks with each successive shot taken (up to 8 attempts), steadily boosting confidence, shot velocity, and frame consistency.","Improves player's shooting abilities whenever they take a shot, up to a maximum of 8 times.","Progressively boosts Finishing and Kicking Power (+2 per shot attempt up to 8 stacks / +16 max cap) on normal shots, stunning shots, and penalty kicks during match.","+2 Finishing & Kicking Power per Shot Attempt (Max 8x Stacks / +16 Cap)",[]],[60,"reg","st","Magnetic Feet","[Stick Izquierdo (LS)] surrounded by opponents within 5 meters; accelerates quick micro-touches to slip through tight multi-man pressing cages.","When in possession of the ball, increases the player's ability to keep it based on the number of opponents within 5 metres (4 opponents max).","Injects +2 to Dribbling, Tight Possession, Physical Contact, and Balance for each opponent within 5m, up to a maximum of +8 for 4 opponents. Capped at 99.","+2 to +8 to Dribbling, Tight Possession, Phys Contact, Balance (Cap 99)",[]],[61,"por","st","GK Spirit Roar","In 2nd half or extra time while protecting a lead; goalkeeper assumes proactive positioning and reacts instantly to through-balls.","Goalkeeper Skill that improves the physical abilities of your DF players when leading after half-time.","Gives +2 Physical Contact, Jumping, and Acceleration to CB, LB, and RB teammates while leading in the 2nd half. Combines with GK Directing Defence to boost 5 distinct attributes.","+2 Physical Contact, Jumping & Accel (2nd Half Lead, Cap 99)",[]],[62,"men","st","Attack Trigger","When playmaker is in settled possession; sends a tactical beacon that triggers early, sharper forward penetration runs from wingers.","Increases all other teammates' Attacking Awareness when this player has control of the ball.","While the skill holder has possession, all other teammates receive +3 Attacking Awareness to accelerate forward runs and attacking support. Capped at 99.","+3 Attacking Awareness to All Teammates (Cap 99)",[]],[63,"tir","st","Snap Strike","On the run from over 20m; flat high-velocity missile trajectory that rips through traffic on goal.","Takes less time to kick the ball when making a Stunning Shot.","Reduces stunning shot wind-up animation time by 25% (-5 frames) and injects +6 to Kicking Power, releasing the shot abruptly before defenders can block.","-25% Wind-up Time / +6 Shot Power",[]],[64,"def","st","Shadow Hunt","Defender chasing an opponent through-ball played into space behind them; gains catch-up recovery sprint speed towards goal.","Increases speed-related abilities when this player is a DMF, RB, LB or CB and an opponent's pass is played behind them.","Injects +3 Speed and Acceleration when tracking back to chase a loose ball played behind the defensive line. Turns off as soon as any player secures possession.","+3 Speed & Acceleration (Loose ball chase behind player, Cap 99)",[]],[65,"men","st","Attacking Surge","Off-the-ball player inside opponent half during team possession; initiates freight-train line-breaking forward runs dragging markers away.","Increases speed-related abilities when this player is in the attacking half and a teammate has the ball.","Grants +3 off-the-ball Speed and Acceleration when sprinting into the opponent's half while a teammate has the ball. Disables the moment the player touches the ball; never stacks with Momentum Dribbling.","+3 Off-the-ball Speed & Acceleration (Opponent's Half, Cap 99)",[]],[66,"reg","st","Tap Trick","[L2] + [Stick Izquierdo (LS)] at full sprint to brake dead in one instant, letting chasing defenders overrun the play.","Performs a Tap Trick feint when entering a feint command.","Unlocks heel-tap fake stops to halt ball dead on the pitch, nullifying sprint momentum to unbalance tracking defenders.","Heel Tap Stop / Zero Inertia Latency",[]],[67,"def","st","Power Tackle","In defensive chase at medium range; delivers a heavy shoulder barge and power standing tackle to strip possession.","Makes it easier to perform a Standing Tackle that wins the ball using body contact, while also making it easier to knock the opponent off balance.","Expands standing reach-Tackling candidates, adding +5.625° to one-sided angular coverage on 7 animations and +3.0 to the lateral correction rate limit towards the ball.","+5.625° Orientation Angle / +3.0 Lateral Correction Rate",[]],[68,"reg","unr","Beast Drive","[Stick Izquierdo (LS)] + [R2] sprinting shoulder-to-shoulder with a defender; absorbs physical impact and sustains stride balance to hold off markers.","Uses physical strength to push forward powerfully.","Grants 0.45 seconds of full immunity to collision deceleration in sprint duels, absorbing heavy shoulder charges without stumbling.","Physical Shield 0.45s / Stumble Immunity",[]],[69,"reg","unr","Sharp Cut","[Stick Izquierdo (LS)] + [R1] while driving past defender; executes an aggressive right-angle cut towards goal without bleeding speed.","Helps players quickly turn at around a 90 deg angle to get past defenders.","Eliminates pre-braking animation frames on 90° cuts, allowing attackers to pivot sharply while maintaining peak sprint velocity.","90° Angle Cut / Zero Momentum Loss",[]],[70,"pas","unr","Decisive Pass","In the attacking final third (X ≥ +18m); delivers bullet-paced uninterceptable ball.","Helps make important passes more effective, especially Stunning Passes.","Stunning pass booster enhancing trajectory velocity and precision on through balls in final third.","Enhances trajectory, speed and defense-splitting precision on purple-bar Stunning Passes",[]],[71,"por","unr","GK Aerial Claim","On high lofted balls into 6-yard area; keeper leaps with full wingspan to catch the ball cleanly over aerial attackers.","Helps goalkeepers claim crosses, corners, and high passes more effectively.","Unreleased goalkeeping skill focused on dominant aerial control and claiming high crosses.","+4 Physical Contact and Jumping during GK aerial duels when ball trajectory exceeds player height",[]],[72,"por","unr","GK Rush Out","In 1v1 breakaways outside the 6-yard box; rushes out with explosive closing speed to smother ball at the striker's feet.","Allows the goalkeeper to quickly rush toward an attacking player.","Sweeper rush speed granting rapid acceleration towards 1v1 breakaways.","Massive burst acceleration and reaction speed when rushing out to close 1v1 shooting angles",[]],[73,"def","proto","Congo (Show Time Prototype)","In central midfield duels, 50-50 challenges, and aerial battles; boosts body stability during contested collisions.","Dramatically boosts physical dominance in midfield duels (+7 Physical Contact and Stamina), preventing players from being displaced during shoulder-to-shoulder collisions.","Unreleased internal prototype (SKILL_CARD_CONGO). Parameters registered in the game engine awaiting official commercial release.","+7 Physical Contact & Stamina (Cap 120)",[]],[74,"pas","proto","Ganges (Show Time Prototype)","Rapid one-touch passing sequences and quick turns under heavy suffocating pressure in the final third.","Enables lightning-fast ball circulation in tight pockets under pressure (+6 Acceleration, Balance and Low Pass), suppressing turning inertia for rapid first-touch link-up play.","Unreleased internal prototype (SKILL_CARD_GANGES). Parameters registered in the game engine awaiting official commercial release.","+6 Acceleration, Balance, Low Pass (Cap 120)",[]],[75,"reg","proto","Indus (Show Time Prototype)","[Contextual] when launching vertical transitions from deep; breaks the opponent's first pressing wave with a line-cutting pass or burst.","Optimizes vertical build-up carries from deep positions (+6 Ball Control and Low Pass), gluing the ball to the boot on first touch to bypass high pressing lines.","Unreleased internal prototype (SKILL_CARD_INDUS). Parameters registered in the game engine awaiting official commercial release.","+6 Ball Control & Low Pass (Cap 120)",[]],[76,"reg","proto","Mekong (Show Time Prototype)","[Stick Izquierdo (LS)] in tight micro-dribbles and rapid directional shifts with either foot inside the box or by the touchline.","Supreme agile dribbling with dual-footed mastery (+6 Tight Possession and Ball Control), removing turning deceleration and forcing Weak Foot Usage and Accuracy to 4/4 maximum.","Unreleased internal prototype (SKILL_CARD_MEKONG). Parameters registered in the game engine awaiting official commercial release.","+6 Tight Possession & Ball Control (Cap 120) [Weak Foot: 4/4]",[]],[77,"tir","proto","Nile (Show Time Prototype)","On open-field breakaway sprints and 1v1 situations against the goalkeeper; composed clinical finishing under speed.","Devastating breakaway speed and clinical finishing (+7 Top Speed and Finishing) on counter-attacks, guaranteeing precision and power in 1v1 situations against the goalkeeper.","Unreleased internal prototype (SKILL_CARD_NILE). Parameters registered in the game engine awaiting official commercial release.","+7 Speed & Finishing (Cap 120)",[]],[78,"pas","proto","Thames (Show Time Prototype)","When threading long-range through-balls, laser switches of play, or whipped crosses.","Engineered for laser-accurate long-distance distribution (+6 Low Pass and Lofted Pass), flattening ball trajectory and increasing velocity so through-balls bypass defensive blocks.","Unreleased internal prototype (SKILL_CARD_THAMES). Parameters registered in the game engine awaiting official commercial release.","+6 Low Pass & Lofted Pass (Cap 120)",[]],[79,"men","proto","Tone (Show Time Prototype)","Active for the full 90 minutes; preserves high physical intensity in pressing traps and defensive recovery transitions.","Relentless stamina and continuous defensive focus (+6 Stamina and Defensive Awareness) across all 90 minutes, fully negating fatigue-induced attribute decay and reaction drops.","Unreleased internal prototype (SKILL_CARD_TONE). Parameters registered in the game engine awaiting official commercial release.","+6 Stamina & Defensive Awareness (Cap 120)",[]]];
+const DFAM = {
+  def:{k:'Habilidades defensivas',l:'Defensivas',i:'ti-shield'},
+  reg:{k:'Habilidades de regate',l:'Regate',i:'ti-run'},
+  pas:{k:'Habilidades de pase',l:'Pase',i:'ti-arrow-right'},
+  tir:{k:'Habilidades de tiro',l:'Tiro',i:'ti-target'},
+  por:{l:'Portero',i:'ti-hand-stop',c:{bar:'#30b0c7',light:'rgba(48,176,199,0.14)'}},
+  men:{k:'Otras habilidades',l:'Mentalidad',i:'ti-brain'}
+};
+const DORDER = ['def','reg','pas','tir','por','men'];
+const DTIER = {std:{l:'Estándar',c:'#8e8e93'},st:{l:'Show Time',c:'#ff9f0a'},proto:{l:'Prototipo',c:'#30b0c7'},unr:{l:'Sin lanzar',c:'#ff453a'}};
+const DPAD = {
+  ps:{'L2 / LT':'L2','L2':'L2','R2':'R2','R1':'R1','R3':'R3'},
+  xb:{'○ Círculo':'B','✕ Cruz':'A','L2 / LT':'LT','L2':'LT','R2':'RT','R1':'RB','R3':'RS (clic)'}
+};
+const DBTN = {'Stick Izquierdo (LS)':'LS','Stick Derecho (RS)':'RS'};
+let dFam = 'all', dTier = 'all', dPad = 'ps';
 
-// 👇 PEGA AQUÍ el resultado del botón "Exportar" (sustituye este array vacío por el que copies)
-const players = [
-  { name: "Lionel Messi", img: "https://efimg.com/efootballhub22/images/player_cards/299067699633495_l.png" },
-  { name: "Lionel Messi", img: "https://efimg.com/efootballhub22/images/player_cards/89129161334103_l.png" },
-  { name: "Lionel Messi", img: "https://efimg.com/efootballhub22/images/player_cards/89129429769559_l.png" },
-  { name: "Lionel Messi", img: "https://efimg.com/efootballhub22/images/player_cards/89133456301399_l.png" },
-  { name: "Neymar Jr.", img: "https://efimg.com/efootballhub22/images/player_cards/89071179308448_l.png" },
-  { name: "Neymar Jr.", img: "https://efimg.com/efootballhub22/images/player_cards/370536760778144_l.png" },
-  { name: "Neymar Jr.", img: "https://efimg.com/efootballhub22/images/player_cards/88033139400096_l.png" },
-  { name: "Neymar Jr.", img: "https://efimg.com/efootballhub22/images/player_cards/89133993205152_l.png" },
-  { name: "Neymar Jr.", img: "https://efimg.com/efootballhub22/images/player_cards/88039044980128_l.png" },
-  { name: "Luis Suarez", img: "https://efimg.com/efootballhub22/images/player_cards/89134261635137_l.png" },
-  { name: "Ronaldinho Gaucho", img: "https://efimg.com/efootballhub22/images/player_cards/89138288266704_l.png" },
-  { name: "Ronaldinho Gaucho", img: "https://efimg.com/efootballhub22/images/player_cards/89067152870864_l.png" },
-  { name: "Ronaldinho Gaucho", img: "https://efimg.com/efootballhub22/images/player_cards/88032334187984_l.png" },
-  { name: "Ronaldinho Gaucho", img: "https://efimg.com/efootballhub22/images/player_cards/88039581945296_l.png" },
-  { name: "Ronaldinho Gaucho", img: "https://efimg.com/efootballhub22/images/player_cards/87960930356688_l.png" },
-  { name: "Peter Schmeichel", img: "https://efimg.com/efootballhub22/images/player_cards/88032334191335_l.png" },
-  { name: "Marcel Desailly", img: "https://efimg.com/efootballhub22/images/player_cards/88039850384095_l.png" },
-  { name: "Van Dijk", img: "https://efimg.com/efootballhub22/images/player_cards/106768055185192_l.png" },
-  { name: "Raphael Varane", img: "https://efimg.com/efootballhub22/images/player_cards/88039850289220_l.png" },
-  { name: "Ronald Araújo", img: "https://efimg.com/efootballhub22/images/player_cards/89129966765504_l.png" },
-  { name: "Declan Rice", img: "https://efimg.com/efootballhub22/images/player_cards/89138019805599_l.png" },
-  { name: "Pedri", img: "https://efimg.com/efootballhub22/images/player_cards/89135067039781_l.png" },
-  { name: "Eden Hazard", img: "https://efimg.com/efootballhub22/images/player_cards/89137214427270_l.png" },
-  { name: "Kylian Mbappé", img: "https://efimg.com/efootballhub22/images/player_cards/106777987362942_l.png" },
-  { name: "Ousmane Dembele", img: "https://efimg.com/efootballhub22/images/player_cards/89135067017250_l.png" },
-];
-
-const PLAYERS_COUNT = 500;
-const PLAYERS_KEY = 'ef_players_data_v1';
-
-function loadPlayersData() {
-  try {
-    const raw = localStorage.getItem(PLAYERS_KEY);
-    if (raw) return JSON.parse(raw);
-  } catch (e) {}
-  // Si no hay nada guardado en este navegador, se parte de la lista fija "players"
-  return players.map(p => ({ name: p.name || '', img: p.img || '' }));
+function dEsc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function dColor(f){ const d = DFAM[f]; return d.c || CAT_COLORS[d.k]; }
+function dCond(t){
+  return dEsc(t).replace(/\[([^\]]+)\]/g, (m, k) => `<span class="kbd">${DBTN[k] || DPAD[dPad][k] || k}</span>`);
 }
-let playersData = loadPlayersData();
-
-function savePlayersData() {
-  try { localStorage.setItem(PLAYERS_KEY, JSON.stringify(playersData)); } catch (e) {}
+function setPad(p){
+  dPad = p;
+  document.querySelectorAll('.pad-btn').forEach(b => b.classList.toggle('active', b.dataset.pad === p));
+  renderDesc();
 }
-
-function escAttr(s) {
-  return (s || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+function dFilterBtn(label, n, active, style, onclick){
+  return `<button class="dfilter${active ? ' active' : ''}" style="${style}" onclick="${onclick}">${label}<span class="n">${n}</span></button>`;
 }
-
-function updatePlayersCount() {
-  const filled = playersData.filter(p => p && (p.name || p.img)).length;
-  const el = document.getElementById('players-count');
-  if (el) el.textContent = `${filled} / ${PLAYERS_COUNT} completados`;
-}
-
-function initPlayers() {
-  const table = document.getElementById('players-table');
-  if (!table) return;
-  let html = '';
-  for (let i = 0; i < PLAYERS_COUNT; i++) {
-    const p = playersData[i] || { name: '', img: '' };
-    const hasImg = !!p.img;
-    html += `<div class="player-row" data-row="${i}">
-      <div class="player-num">${i + 1}</div>
-      <div class="player-photo-cell">
-        <img class="player-photo-img" src="${escAttr(p.img)}" style="display:${hasImg ? 'block' : 'none'}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="player-photo-placeholder" style="display:${hasImg ? 'none' : 'flex'}"><i class="ti ti-photo"></i></div>
-        <input class="player-url-input" type="text" placeholder="URL imagen" value="${escAttr(p.img)}" data-idx="${i}" data-field="img">
-      </div>
-      <div class="player-name-cell">
-        <input class="player-name-input" type="text" placeholder="Nombre del jugador" value="${escAttr(p.name)}" data-idx="${i}" data-field="name">
-      </div>
-    </div>`;
-  }
-  table.innerHTML = html;
-  table.oninput = onPlayerFieldInput;
-  updatePlayersCount();
-}
-
-function onPlayerFieldInput(e) {
-  const t = e.target;
-  const idx = parseInt(t.dataset.idx, 10);
-  const field = t.dataset.field;
-  if (isNaN(idx) || !field) return;
-  if (!playersData[idx]) playersData[idx] = { name: '', img: '' };
-  playersData[idx][field] = t.value;
-  savePlayersData();
-
-  if (field === 'img') {
-    const row = t.closest('.player-row');
-    const img = row.querySelector('.player-photo-img');
-    const placeholder = row.querySelector('.player-photo-placeholder');
-    if (t.value) {
-      img.src = t.value;
-      img.style.display = 'block';
-      placeholder.style.display = 'none';
-    } else {
-      img.removeAttribute('src');
-      img.style.display = 'none';
-      placeholder.style.display = 'flex';
-    }
-  }
-  updatePlayersCount();
-}
-
-function filterPlayers() {
-  const query = document.getElementById('players-search').value.toLowerCase().trim();
-  document.querySelectorAll('#players-table .player-row').forEach(row => {
-    if (!query) { row.style.display = ''; return; }
-    const nameInput = row.querySelector('.player-name-input');
-    const match = nameInput.value.toLowerCase().includes(query);
-    row.style.display = match ? '' : 'none';
+function renderDescFilters(){
+  let h = dFilterBtn('Todas', SKILL_DOCS.length, dFam === 'all', '', "setDescFam('all')");
+  DORDER.forEach(f => {
+    const c = dColor(f), n = SKILL_DOCS.filter(s => s[1] === f).length;
+    h += dFilterBtn(DFAM[f].l, n, dFam === f, `--c:${c.bar};--cr:${c.bar}66;--cs:${c.light}`, `setDescFam('${f}')`);
   });
+  document.getElementById('desc-fam').innerHTML = h;
+  h = dFilterBtn('Todos los tipos', SKILL_DOCS.length, dTier === 'all', '', "setDescTier('all')");
+  Object.keys(DTIER).forEach(t => {
+    const n = SKILL_DOCS.filter(s => s[2] === t).length;
+    h += dFilterBtn(DTIER[t].l, n, dTier === t, `--c:${DTIER[t].c};--cr:${DTIER[t].c}66;--cs:${DTIER[t].c}22`, `setDescTier('${t}')`);
+  });
+  document.getElementById('desc-tier').innerHTML = h;
 }
+function setDescFam(f){ dFam = f; renderDescFilters(); renderDesc(); }
+function setDescTier(t){ dTier = t; renderDescFilters(); renderDesc(); }
 
-function sortPlayersAlpha() {
-  const filled = playersData.filter(p => p && (p.name || p.img));
-  filled.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'es', { sensitivity: 'base' }));
-  const emptyCount = Math.max(PLAYERS_COUNT - filled.length, 0);
-  const empties = Array.from({ length: emptyCount }, () => ({ name: '', img: '' }));
-  playersData = filled.concat(empties);
-  savePlayersData();
+function dCard(s){
+  const col = dColor(s[1]), t = DTIER[s[2]];
+  const combos = s[8].map(e => `<span class="dc-combo"><i class="ti ti-bolt"></i>${dEsc(e)}</span>`).join('');
+  return `<div class="dcard" style="--b:${col.bar}">
+    <div class="dc-top"><span class="dc-name">${dEsc(s[3])}</span><span class="dc-tier" style="--tc:${t.c}">${t.l}</span><i class="ti ti-chevron-down dc-chev"></i></div>
+    <div class="dc-effect"><i class="ti ti-bolt"></i>${dEsc(s[7])}</div>
+    <div class="dc-body"><div class="dc-inner">
+      <div class="dc-lbl"><i class="ti ti-device-gamepad-2"></i>Cómo se activa</div><div class="dc-txt">${dCond(s[4])}</div>
+      <div class="dc-lbl"><i class="ti ti-info-circle"></i>Descripción en el juego</div><div class="dc-txt">${dEsc(s[5])}</div>
+      <div class="dc-lbl"><i class="ti ti-bulb"></i>Consejo táctico</div><div class="dc-txt">${dEsc(s[6])}</div>
+      ${combos}
+    </div></div>
+  </div>`;
 }
-
-function exportPlayers() {
-  const filled = playersData.filter(p => p && (p.name || p.img));
-  const lines = filled.map(p => `  { name: ${JSON.stringify(p.name || '')}, img: ${JSON.stringify(p.img || '')} },`).join('\n');
-  const code = `const players = [\n${lines}\n];`;
-  document.getElementById('export-textarea').value = code;
-  document.getElementById('export-modal').classList.add('visible');
+function renderDesc(){
+  const q = document.getElementById('desc-search').value.toLowerCase().trim();
+  let total = 0;
+  const html = DORDER.map(f => {
+    if (dFam !== 'all' && dFam !== f) return '';
+    const list = SKILL_DOCS.filter(s => s[1] === f && (dTier === 'all' || s[2] === dTier) &&
+      (!q || s.slice(3, 8).concat(s[8]).join(' ').toLowerCase().includes(q)));
+    if (!list.length) return '';
+    total += list.length;
+    return `<div class="section"><div class="section-title"><i class="ti ${DFAM[f].i}"></i>${DFAM[f].l}<span class="section-count">${list.length}</span></div>
+      <div class="dgrid">${list.map(dCard).join('')}</div></div>`;
+  }).join('');
+  document.getElementById('desc-content').innerHTML = html || '<div class="no-results"><i class="ti ti-search-off"></i><br>Sin resultados</div>';
+  document.getElementById('desc-count').textContent = total + (total === 1 ? ' habilidad' : ' habilidades');
 }
-
-function closeExportModal() {
-  document.getElementById('export-modal').classList.remove('visible');
-}
-
-function copyExport() {
-  const ta = document.getElementById('export-textarea');
-  ta.select();
-  const btn = document.getElementById('copy-export-btn');
-  const original = btn.innerHTML;
-  const done = () => {
-    btn.innerHTML = '<i class="ti ti-check"></i> Copiado';
-    setTimeout(() => { btn.innerHTML = original; }, 1500);
-  };
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(ta.value).then(done).catch(() => {
-      document.execCommand('copy');
-      done();
-    });
-  } else {
-    document.execCommand('copy');
-    done();
-  }
-}
-
-initPlayers();
+document.getElementById('desc-content').addEventListener('click', e => {
+  const c = e.target.closest('.dcard'); if (c) c.classList.toggle('open');
+});
+renderDescFilters();
+renderDesc();
 </script>
 
 <!-- Bolitas flotantes: cambia la imagen (src) y el enlace (href) de cada una -->
